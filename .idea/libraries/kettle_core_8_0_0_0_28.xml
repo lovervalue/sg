@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="kettle-core-8.0.0.0-28">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/pentaho-kettle/kettle-core/8.0.0.0-28/kettle-core-8.0.0.0-28.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

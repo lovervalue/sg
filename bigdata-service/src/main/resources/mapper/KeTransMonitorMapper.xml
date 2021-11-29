@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.KeTransMonitorMapper">
+    <resultMap id="KTransRecord" type="com.sofn.bigdata.model.KTransRecord">
+        <id column="record_id" jdbcType="VARCHAR" property="recordId"/>
+        <id column="record_status" jdbcType="INTEGER" property="recordStatus"/>
+        <result column="record_trans" property="recordTrans" jdbcType="INTEGER"/>
+        <result column="log_file_path" property="logFilePath" jdbcType="VARCHAR"/>
+        <result column="start_Time" property="startTime" jdbcType="DATE"/>
+        <result column="stop_Time" property="stopTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <select id="selectCountsuccess" resultType="java.lang.Integer"
+            parameterType="java.util.Map">
+        SELECT   sum(monitor_success) as allmonitorsuccess
+         FROM k_trans_monitor
+        WHERE monitor_status =1
+    </select>
+
+    <select id="selectCountfail" resultType="java.lang.Integer"
+            parameterType="java.util.Map" >
+        SELECT   sum(monitor_fail) as allmonitorfail
+         FROM k_trans_monitor
+        WHERE monitor_status =1
+    </select>
+
+    <select id="seetrans" resultMap="KTransRecord"
+            parameterType="java.util.Map">
+        SELECT   *
+         FROM k_trans_record
+        WHERE record_trans =#{recordTrans}
+    </select>
+
+    <select id="seetransconut" resultType="java.lang.Integer"
+            parameterType="java.util.Map">
+        SELECT   count(*)
+         FROM k_trans_record
+        WHERE record_trans =#{recordTrans}
+    </select>
+
+</mapper>

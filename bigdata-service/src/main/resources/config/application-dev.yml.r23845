@@ -1,0 +1,119 @@
+# 沼气录入配置-----------------------------start------------------------------------------
+# 数据库规则定义的所在地址
+#driver: oracle.jdbc.driver.OracleDriver
+#url: jdbc:oracle:thin:@10.0.52.7:1521:orcl
+#username1: astcap_dev
+#password1: astcap_dev
+driver: com.uxsino.uxdb.Driver
+url: jdbc:uxdb://192.168.21.62:5432/bigdata
+username1: uxdb
+password1: sofn@123
+
+#kafka配置参数
+kafka:
+  topic: marsh_info
+  metadata.broker.list: 192.168.21.101:9092,192.168.21.102:9092,192.168.21.103:9092
+
+#mqtt相关配置参数
+mqtt:
+  host: tcp://192.168.21.101:60000
+  clientid: mqttClient001
+  userName: admin
+  passWord: password
+
+# 沼气录入配置-----------------------------------end------------------------------------------
+
+spring:
+  mail:
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+    default-encoding: UTF-8
+    ### 数据库配置
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+#    driver-class-name: com.mysql.jdbc.Driver
+#    url: jdbc:mysql://192.168.21.50:3306/bigdata?characterEncoding=UTF-8&useUnicode=true&useSSL=false&autoReconnect=true&failOverReadOnly=false
+#    username: root
+#    password: 123456
+    driver-class-name: com.uxsino.uxdb.Driver
+    url: jdbc:uxdb://192.168.21.62:5432/bigdata
+    username: uxdb
+    password: sofn@123
+    druid:
+      async-init: true
+      initial-size: 15
+      max-active: 30
+      min-idle: 10
+      max-wait: 60000
+      pool-prepared-statements: true
+      max-pool-prepared-statement-per-connection-size: 20
+      timeBetweenEvictionRunsMillis: 60000
+      minEvictableIdleTimeMillis: 300000
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      validation-query: SELECT 1 FROM DUAL
+      #connection-properties: config.decrypt=true;config.decrypt.key=${spring.datasource.publicKey}
+      filter:
+        config:
+          enabled: true
+
+    ### redis缓存配置
+#    redis:
+#      cluster:
+#        nodes: 10.0.50.103:7000,10.0.50.103:7001,10.0.50.103:7002
+#        timeout: 6000ms
+#        lettuce:
+#          pool:
+#            max-active: 100
+#            max-wait: -1ms
+#            max-idle: 10
+#        database: 0
+  redis:
+    database: 0
+    host: 10.0.50.101
+    port: 6379
+    password:
+
+  #mybatis-plus
+  mybatis-plus:
+    mapper-locations: classpath*:/mapper/**/*Mapper.xml
+    typeAliasesPackage: com.sofn.eepspider.model
+    typeHandlersPackage: com.sofn.eepspider.convertor
+    global-config:
+      id-type: 3
+      field-strategy: 2
+      auto-set-db-type: true
+      db-column-underline: false
+      refresh-mapper: true
+    configuration:
+      map-underscore-to-camel-case: true
+      cache-enabled: false
+      log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
+
+    #  ### jpa配置
+    #  jpa:
+    #    hibernate:
+    #      ddl-auto: update
+    #    show-sql: true
+    #    database: mysql
+    #    generate-ddl: true
+    #password: gjzspt@sofn
+
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ip-address}
+    instance-id: ${eureka.instance.hostname}:${server.port}
+  client:
+    service-url:
+      defaultZone: http://10.0.50.101:8880/eureka/
+#      defaultZone: http://127.0.0.1:8880/eureka/

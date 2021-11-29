@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.DataShareMapper" >
+    <resultMap id="DataShareMap" type="com.sofn.bigdata.model.DataShare">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="INTER_ID" jdbcType="VARCHAR" property="interId" />
+        <result column="INTER_NAME" jdbcType="VARCHAR" property="interName" />
+        <result column="INTER_COMMENT" jdbcType="VARCHAR" property="interComment" />
+        <result column="INTER_URL" jdbcType="VARCHAR" property="interUrl" />
+        <result column="INTER_REQUEST" jdbcType="VARCHAR" property="interRequest" />
+        <result column="INTER_REG" jdbcType="VARCHAR" property="interReg" />
+        <result column="INTER_PARAMS" jdbcType="VARCHAR" property="interParams" />
+        <result column="INTER_STATUS" jdbcType="VARCHAR" property="interStatus" />
+        <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+        <result column="OPERATIME" jdbcType="VARCHAR" property="operatime" />
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <insert id="saveDataShare" parameterType="java.util.HashMap">
+            insert into datashare (
+                ID,
+                INTER_ID,
+                INTER_NAME,
+                INTER_COMMENT,
+                INTER_URL,
+                INTER_REQUEST,
+                INTER_REG,
+                INTER_PARAMS,
+                INTER_STATUS,
+                OPERATOR,
+                OPERATIME,
+                DEL_FLAG,
+                CREATE_USER_ID,
+                CREATE_TIME,
+                UPDATE_USER_ID,
+                UPDATE_TIME
+            )
+            values
+                (
+                    #{id,jdbcType=VARCHAR},
+                    #{interId,jdbcType=VARCHAR},
+                    #{interName,jdbcType=VARCHAR},
+                    #{interComment,jdbcType=VARCHAR},
+                    #{interUrl,jdbcType=VARCHAR},
+                    #{interRequest,jdbcType=VARCHAR},
+                    #{interReg,jdbcType=VARCHAR},
+                    #{interParams,jdbcType=VARCHAR},
+                    #{interStatus,jdbcType=VARCHAR},
+                    #{operator,jdbcType=VARCHAR},
+                    #{operatime,jdbcType=TIMESTAMP},
+                    #{delFlag,jdbcType=VARCHAR},
+                    #{createUserId,jdbcType=VARCHAR},
+                    #{createTime,jdbcType=TIMESTAMP},
+                    #{updateUserId,jdbcType=VARCHAR},
+                    #{updateTime,jdbcType=TIMESTAMP}
+                )
+    </insert>
+    <select id="getDataShareList" resultMap="DataShareMap">
+            select
+                ID,
+                INTER_ID,
+                INTER_NAME,
+                INTER_COMMENT,
+                INTER_URL,
+                INTER_REQUEST,
+                INTER_REG,
+                INTER_PARAMS,
+                INTER_STATUS,
+                OPERATOR,
+                OPERATIME,
+                DEL_FLAG,
+                CREATE_USER_ID,
+                CREATE_TIME,
+                UPDATE_USER_ID,
+                UPDATE_TIME
+            from
+                datashare
+            where
+                DEL_FLAG = 'N'
+            <if test="interName != null and interName != ''">
+                and INTER_NAME = #{interName}
+            </if>
+            <if test="interStatus != null and interStatus != ''">
+                and INTER_STATUS = #{interStatus}
+            </if>
+    </select>
+    <select id="getDataShareListByInterid" resultMap="DataShareMap">
+            select
+                ID,
+                INTER_ID,
+                INTER_NAME,
+                INTER_COMMENT,
+                INTER_URL,
+                INTER_REQUEST,
+                INTER_REG,
+                INTER_PARAMS,
+                INTER_STATUS,
+                OPERATOR,
+                OPERATIME,
+                DEL_FLAG,
+                CREATE_USER_ID,
+                CREATE_TIME,
+                UPDATE_USER_ID,
+                UPDATE_TIME
+            from
+                datashare
+            where
+                DEL_FLAG = 'N'
+            <if test="interId != null and interId != ''">
+                and INTER_ID = #{interId}
+            </if>
+    </select>
+    <update id="updateDataShare" parameterType="java.util.HashMap">
+            update datashare set
+                ID = #{id,jdbcType=VARCHAR},
+                INTER_ID = #{interId,jdbcType=VARCHAR},
+                INTER_NAME = #{interName,jdbcType=VARCHAR},
+                INTER_COMMENT = #{interComment,jdbcType=VARCHAR},
+                INTER_URL = #{interUrl,jdbcType=VARCHAR},
+                INTER_REQUEST = #{interRequest,jdbcType=VARCHAR},
+                INTER_REG = #{interReg,jdbcType=VARCHAR},
+                INTER_PARAMS = #{interParams,jdbcType=VARCHAR},
+                INTER_STATUS = #{interStatus,jdbcType=VARCHAR},
+                OPERATOR = #{operator,jdbcType=VARCHAR},
+                OPERATIME = #{operatime,jdbcType=TIMESTAMP},
+                DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+            where
+                ID = #{id}
+    </update>
+    <update id="deleteDataShare" parameterType="java.util.HashMap">
+            update datashare set
+                DEL_FLAG = 'Y'
+            where
+                ID = #{id}
+    </update>
+</mapper>

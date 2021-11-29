@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="metastore-8.0.0.0-28">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/pentaho/metastore/8.0.0.0-28/metastore-8.0.0.0-28.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

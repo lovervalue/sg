@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.SourceTbInfoMapper" >
+    <resultMap id="SourceTbInfoMap" type="com.sofn.bigdata.model.SourceTbInfo">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="SOURCEID" jdbcType="VARCHAR" property="sourceid" />
+        <result column="TB_NAME" jdbcType="VARCHAR" property="tbName" />
+        <result column="TB_ALIAS" jdbcType="VARCHAR" property="tbAlias" />
+        <result column="TB_STATUS" jdbcType="VARCHAR" property="tbStatus" />
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <select id="getTablesBySourceId" resultMap="SourceTbInfoMap">
+        select
+            ID,
+            SOURCEID,
+            TB_NAME,
+            TB_ALIAS,
+            TB_STATUS,
+            CREATE_USER_ID,
+            CREATE_TIME,
+            UPDATE_USER_ID,
+            UPDATE_TIME
+        from
+            source_tb_info
+        where
+            DEL_FLAG = 'N'
+    </select>
+    <update id="saveTables" parameterType="java.util.HashMap">
+            update source_tb_info set
+                TB_STATUS = '2'
+            where
+                ID in
+            <foreach collection="tbids" index="index" open="(" separator=","  close=")" item="tbid" >
+                #{tbid}
+            </foreach>
+    </update>
+</mapper>

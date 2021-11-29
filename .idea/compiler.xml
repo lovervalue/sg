@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="sofn-common" />
+        <module name="gateway-service" />
+        <module name="dgap-sys-api" />
+        <module name="xxl-job-admin" />
+        <module name="xxl-job-core" />
+        <module name="xxl-job-executor-sample-springboot" />
+        <module name="sys-service" />
+        <module name="register-service" />
+        <module name="bigdata-service" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bigdata-service" target="1.8" />
+      <module name="dgap-sys-api" target="1.8" />
+      <module name="gateway-service" target="1.8" />
+      <module name="register-service" target="1.8" />
+      <module name="sofn-common" target="1.8" />
+      <module name="sofn-eep" target="1.8" />
+      <module name="sys-service" target="1.8" />
+      <module name="xxl-job" target="1.7" />
+      <module name="xxl-job-admin" target="1.7" />
+      <module name="xxl-job-core" target="1.7" />
+      <module name="xxl-job-executor-sample-springboot" target="1.7" />
+      <module name="xxl-job-executor-samples" target="1.7" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="bigdata-service" options="-parameters" />
+      <module name="dgap-sys-api" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
+      <module name="register-service" options="-parameters" />
+      <module name="sofn-common" options="-parameters" />
+      <module name="sys-service" options="-parameters" />
+    </option>
+  </component>
+</project>

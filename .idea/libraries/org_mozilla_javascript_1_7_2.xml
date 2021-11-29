@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="org.mozilla.javascript-1.7.2">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../jars/org.mozilla.javascript-1.7.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

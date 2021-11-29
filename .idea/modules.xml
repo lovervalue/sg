@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bigdata-service/bigdata-service.iml" filepath="$PROJECT_DIR$/bigdata-service/bigdata-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dgap-sys-api/dgap-sys-api.iml" filepath="$PROJECT_DIR$/dgap-sys-api/dgap-sys-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gateway-service/gateway-service.iml" filepath="$PROJECT_DIR$/gateway-service/gateway-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/register-service/register-service.iml" filepath="$PROJECT_DIR$/register-service/register-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sofn-common/sofn-common.iml" filepath="$PROJECT_DIR$/sofn-common/sofn-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sofn-eep.iml" filepath="$PROJECT_DIR$/sofn-eep.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sys-service/sys-service.iml" filepath="$PROJECT_DIR$/sys-service/sys-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xxl-job/xxl-job.iml" filepath="$PROJECT_DIR$/xxl-job/xxl-job.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xxl-job/xxl-job-admin/xxl-job-admin.iml" filepath="$PROJECT_DIR$/xxl-job/xxl-job-admin/xxl-job-admin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xxl-job/xxl-job-core/xxl-job-core.iml" filepath="$PROJECT_DIR$/xxl-job/xxl-job-core/xxl-job-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xxl-job/xxl-job-executor-samples/xxl-job-executor-sample-springboot/xxl-job-executor-sample-springboot.iml" filepath="$PROJECT_DIR$/xxl-job/xxl-job-executor-samples/xxl-job-executor-sample-springboot/xxl-job-executor-sample-springboot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/xxl-job/xxl-job-executor-samples/xxl-job-executor-samples.iml" filepath="$PROJECT_DIR$/xxl-job/xxl-job-executor-samples/xxl-job-executor-samples.iml" />
+    </modules>
+  </component>
+</project>

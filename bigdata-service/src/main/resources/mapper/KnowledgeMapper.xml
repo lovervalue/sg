@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sofn.bigdata.mapper.KnowledgeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <!--  模糊查询返回结果  -->
+    <resultMap id="fuzzySearchKnowledgeResultMap" type="com.sofn.bigdata.model.MyKnowledge">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <id column="knowledge_id" jdbcType="VARCHAR" property="knowledgeId"/>
+        <result column="knowledge_name" property="knowledgeName" jdbcType="VARCHAR"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--  关联知识点返回结果  -->
+    <resultMap id="RelatedKnowledgeResultMap" type="com.sofn.bigdata.model.RelatedKnowledge">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="knowledge_id" property="knowledgeId" jdbcType="VARCHAR"/>
+        <result column="knowledge_name" property="knowledgeName" jdbcType="VARCHAR"/>
+        <result column="knowledge_next_id" property="relatedknowledgeId" jdbcType="VARCHAR"/>
+        <result column="related_knowledge_name" property="relatedknowledgeName" jdbcType="VARCHAR"/>
+        <result column="associated_flag" property="associatedFlag" jdbcType="VARCHAR"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="abstracts" property="abstracts" jdbcType="VARCHAR"/>
+        <result column="level" property="level" jdbcType="INTEGER"/>
+    </resultMap>
+    <!--  知识点信息返回结果  -->
+    <resultMap id="knowledgeResultMap" type="com.sofn.bigdata.model.Knowledge">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="knowledge_id" property="knowledgeId" jdbcType="VARCHAR"/>
+        <result column="knowledge_name" property="knowledgeName" jdbcType="VARCHAR"/>
+        <result column="collections" property="collections" jdbcType="INTEGER"/>
+        <result column="col_flag" property="colFlag" jdbcType="VARCHAR"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="keyword" property="keyword" jdbcType="VARCHAR"/>
+        <result column="abstracts" property="abstracts" jdbcType="VARCHAR"/>
+        <result column="text" property="text" jdbcType="VARCHAR"/>
+        <result column="attachment_name" property="attachmentName" jdbcType="VARCHAR"/>
+        <result column="attachment_address" property="attachmentAddress" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+        <result column="create_time" property="createTime" jdbcType="DATE"/>
+    </resultMap>
+
+    <!--  关联知识点返回结果集  -->
+    <resultMap id="RelatedKnowledgesResultMap" type="com.sofn.bigdata.model.RelatedKnowledges">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="knowledge_id" property="knowledgeId" jdbcType="VARCHAR"/>
+        <result column="knowledge_name" property="knowledgeName" jdbcType="VARCHAR"/>
+        <result column="knowledge_next_id" property="relatedknowledgeId" jdbcType="VARCHAR"/>
+        <result column="related_knowledge_name" property="relatedknowledgeName" jdbcType="VARCHAR"/>
+        <result column="associated_flag" property="associatedFlag" jdbcType="VARCHAR"/>
+        <result column="author" property="author" jdbcType="VARCHAR"/>
+        <result column="abstracts" property="abstracts" jdbcType="VARCHAR"/>
+        <result column="related_author" property="relatedAuthor" jdbcType="VARCHAR"/>
+        <result column="related_abstracts" property="relatedAbstracts" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--  模糊搜索知识点  -->
+    <select id="fuzzySearchKnowledge" resultMap="fuzzySearchKnowledgeResultMap"
+            parameterType="java.lang.String">
+        select id,knowledge_name,level
+        from tb_knowledge
+        <if test="knowledgeName != ''">
+        WHERE
+            knowledge_name like concat(concat('%',#{knowledgeName}),'%')
+        </if>
+    </select>
+
+    <!--  我的知识+模糊搜索收藏知识点  -->
+    <select id="fuzzySearchCollectKnowledge" resultMap="fuzzySearchKnowledgeResultMap"
+            parameterType="java.util.Map">
+        select
+        tc.knowledge_id as knowledge_id,
+        tk.knowledge_name as knowledge_name,
+        tk.author as author,
+        tc.create_time as create_time
+        from
+        tb_collection tc
+        left join
+        tb_knowledge tk
+        on
+        tc.knowledge_id=tk.id
+        where
+        tc.user_id=#{loginUserId}
+        <if test="knowledgeName != ''">
+            and tk.knowledge_name like concat(concat('%',#{knowledgeName}),'%')
+        </if>
+        limit #{pageSize} offset #{pageStart}
+    </select>
+
+    <!--  收藏  -->
+    <insert id="collectKnowledge" parameterType="java.util.Map">
+        insert into tb_collection
+        (id, user_id, knowledge_id, create_time)
+        values
+        (#{id}, #{loginUser_id}, #{knowledge_id}, #{create_time})
+    </insert>
+
+    <!--  取消收藏  -->
+    <delete id="cancelCollectKnowledge" parameterType="java.util.Map">
+        delete from tb_collection
+        where
+            user_id = #{loginUserId}
+        and knowledge_id = #{knowledgeId}
+    </delete>
+
+    <!--  新增知识点  -->
+    <insert id="insertKnowledge" parameterType="java.util.Map">
+        insert into tb_knowledge
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="knowledge_name != null">knowledge_name,</if>
+            <if test="author != null">author,</if>
+            <if test="abstracts != null">abstract,</if>
+            <if test="keyword != null">keyword,</if>
+            <if test="text != null">text,</if>
+            <if test="level != null">level,</if>
+            <if test="create_time != null">create_time,</if>
+            <if test="create_user_id != null">create_user_id,</if>
+            <if test="create_time_sys != null">create_time_sys,</if>
+            <if test="create_user != null">create_user,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="knowledge_name != null">#{knowledge_name},</if>
+            <if test="author != null">#{author},</if>
+            <if test="abstracts != null">#{abstracts},</if>
+            <if test="keyword != null">#{keyword},</if>
+            <if test="text != null">#{text},</if>
+            <if test="level != null">#{level},</if>
+            <if test="create_time != null">#{create_time},</if>
+            <if test="create_user_id != null">#{create_user_id},</if>
+            <if test="create_time_sys != null">#{create_time_sys},</if>
+            <if test="create_user != null">#{create_user},</if>
+        </trim>
+    </insert>
+
+    <!--  关联知识点  -->
+    <insert id="associatedKnowledge" parameterType="java.util.Map">
+        insert into tb_associated
+        (id, knowledge_id, knowledge_next_id, associated_flag, create_user_id, create_time)
+        select #{id}, #{knowledge_id}, #{knowledge_next_id}, #{associated_flag}, #{create_user_id}, #{create_time}
+        where (select id from tb_associated where (knowledge_id = #{knowledge_id} and knowledge_next_id = #{knowledge_next_id}) or (knowledge_id = #{knowledge_next_id} and knowledge_next_id = #{knowledge_id})) is null
+    </insert>
+
+    <!--  关联附件  -->
+    <update id="insertAttachments">
+        update tb_knowledge
+        <set>
+            attachment_name = #{attachment_name},
+            attachment_address = #{attachment_address},
+            update_user_id = #{update_user_id},
+            update_time = #{update_time}
+        </set>
+        where id = #{knowledgeId}
+    </update>
+
+    <!--  查看知识网络  -->
+    <select id="getShow" resultMap="RelatedKnowledgeResultMap"
+            parameterType="java.util.Map">
+        select
+        ta.knowledge_id as knowledge_id,
+        tk.knowledge_name as knowledge_name,
+        ta.knowledge_next_id as knowledge_next_id,
+        tl.knowledge_name as related_knowledge_name,
+        ta.associated_flag as associated_flag,
+        tl.level as level
+        from
+        (select
+        ts.knowledge_id,
+        ts.knowledge_next_id,
+        ts.associated_flag
+        from
+        tb_associated ts
+        where
+        <if test="associatedFlag == 'P'.toString()">
+            (ts.knowledge_id=#{knowledgeId}
+            or
+            ts.knowledge_next_id=#{knowledgeId})
+            and
+            ts.associated_flag='P'
+        </if>
+        <if test="associatedFlag == 'S'.toString()">
+            (ts.knowledge_id=#{knowledgeId}
+            and
+            ts.associated_flag='S')
+            or
+            (ts.knowledge_next_id=#{knowledgeId}
+            and
+            ts.associated_flag='L')
+        </if>
+        <if test="associatedFlag == 'L'.toString()">
+            (ts.knowledge_id=#{knowledgeId}
+            and
+            ts.associated_flag='L')
+            or
+            (ts.knowledge_next_id=#{knowledgeId}
+            and
+            ts.associated_flag='S')
+        </if>
+        ) ta
+        left join
+        tb_knowledge tk
+        on
+        ta.knowledge_id=tk.id
+        left join
+        tb_knowledge tl
+        on
+        ta.knowledge_next_id=tl.id
+    </select>
+
+    <!--  知识点基础数据  -->
+    <select id="getKnowledge" resultMap="knowledgeResultMap"
+            parameterType="java.util.Map">
+        select
+        tk.id as knowledge_id,
+        tk.knowledge_name as knowledge_name,
+        tk.author as author,
+        tk.keyword as keyword,
+        tk.abstract as abstracts,
+        tk.text as text,
+        tk.attachment_name as attachment_name,
+        tk.attachment_address as attachment_address,
+        tk.create_user as create_user,
+        tk.create_time_sys as create_time
+        from
+        tb_knowledge tk
+        where
+        tk.id=#{knowledge_id}
+    </select>
+    <!--  知识点是否收藏  -->
+    <select id="getKnowledgeCol" resultType="java.lang.Integer"
+            parameterType="java.util.Map">
+        select
+        count(1)
+        from
+        tb_collection tc
+        where
+        tc.user_id=#{loginUser_id}
+        and
+        tc.knowledge_id=#{knowledge_id}
+    </select>
+
+    <!--  知识点收藏数量  -->
+    <select id="getKnowledgeColCount" resultType="java.lang.Integer"
+            parameterType="java.util.Map">
+        select
+        count(1)
+        from
+        tb_collection tc
+        where
+        tc.knowledge_id=#{knowledge_id}
+    </select>
+
+	<!--  关联知识下拉总条数查询  -->
+    <select id="getKnowledgeLimitCounts" resultType="java.lang.Integer"
+            parameterType="java.util.Map">
+        select
+        count(1)
+        from
+        tb_associated ts
+        where
+        <if test="associatedFlag == 'P'.toString()">
+            (ts.knowledge_id=#{knowledgeId}
+            or
+            ts.knowledge_next_id=#{knowledgeId})
+            and
+            ts.associated_flag='P'
+        </if>
+        <if test="associatedFlag == 'S'.toString()">
+            (ts.knowledge_id=#{knowledgeId}
+            and
+            ts.associated_flag='S')
+            or
+            (ts.knowledge_next_id=#{knowledgeId}
+            and
+            ts.associated_flag='L')
+        </if>
+        <if test="associatedFlag == 'L'.toString()">
+            (ts.knowledge_id=#{knowledgeId}
+            and
+            ts.associated_flag='L')
+            or
+            (ts.knowledge_next_id=#{knowledgeId}
+            and
+            ts.associated_flag='S')
+        </if>
+    </select>
+
+    <!--  关联知识下拉总条数查询分类  -->
+    <select id="getKnowledgeLimitCount" resultType="java.lang.Integer"
+            parameterType="java.util.Map">
+        select
+        count(1)
+        from
+        tb_associated
+        where
+        knowledge_id=#{knowledgeId}
+        or
+        knowledge_next_id=#{knowledgeId}
+    </select>
+	
+	<!--  收藏知识模糊查询总条数  -->
+    <select id="fuzzySearchCollectKnowledgeCount" resultType="java.lang.Integer"
+            parameterType="java.util.Map">
+        select
+        count(1)
+        from
+        tb_collection tc
+        left join
+        tb_knowledge tk
+        on
+        tc.knowledge_id=tk.id
+        where
+        tc.user_id=#{loginUserId}
+        <if test="knowledgeName != ''">
+            and tk.knowledge_name like concat(concat('%',#{knowledgeName}),'%')
+        </if>
+    </select>
+
+    <!--  关联知识下拉页面  -->
+    <select id="getKnowledgeList" resultMap="RelatedKnowledgesResultMap"
+            parameterType="java.util.Map">
+        select
+        ta.knowledge_id as knowledge_id,
+        tk.knowledge_name as knowledge_name,
+        tk.author as author,
+        tk.abstract as abstracts,
+        tl.author as related_author,
+        tl.abstract as related_abstracts,
+        ta.knowledge_next_id as knowledge_next_id,
+        tl.knowledge_name as related_knowledge_name,
+        ta.associated_flag as associated_flag
+        from
+        (select
+        ts.knowledge_id,
+        ts.knowledge_next_id,
+        ts.associated_flag
+        from
+        tb_associated ts
+        where
+        ts.knowledge_id=#{knowledgeId}
+        or
+        ts.knowledge_next_id=#{knowledgeId}
+        ) ta
+        left join
+        tb_knowledge tk
+        on
+        ta.knowledge_id=tk.id
+        left join
+        tb_knowledge tl
+        on
+        ta.knowledge_next_id=tl.id
+        limit #{pageSize} offset #{pageStart}
+    </select>
+
+    <!--  可关联知识点查询  -->
+    <select id="getAbleKnowledgeList" resultMap="fuzzySearchKnowledgeResultMap"
+            parameterType="java.lang.Integer">
+        select
+        id,knowledge_name,tk.level as level
+        from
+        tb_knowledge tk
+        where
+        <if test="associatedFlag == 'S'.toString()">
+            tk.level = #{level} + 1
+        </if>
+        <if test="associatedFlag == 'L'.toString()">
+            tk.level = #{level} - 1
+        </if>
+        <if test="associatedFlag == 'P'.toString()">
+            tk.level = #{level}
+        </if>
+    </select>
+
+    <!--  通过知识点id查询知识点等级  -->
+    <select id="getKnowledgeLevel" resultType="java.lang.Integer"
+            parameterType="java.lang.String">
+        select
+        tk.level
+        from
+        tb_knowledge tk
+        where
+        tk.id = #{knowledgeId}
+    </select>
+
+    <!--  知识点同名检测  -->
+    <select id="isSameName" resultType="java.lang.Integer"
+            parameterType="java.lang.String">
+        select
+        count(*)
+        from
+        tb_knowledge tk
+        where
+        tk.knowledge_name = #{knowledgeName}
+    </select>
+</mapper>

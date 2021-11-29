@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="uxdbjdbc-4.2">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/com/uxsino/uxdb/uxdbjdbc/4.2/uxdbjdbc-4.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

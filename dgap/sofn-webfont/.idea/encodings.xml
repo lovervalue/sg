@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding" defaultCharsetForPropertiesFiles="UTF-8">
+    <file url="file://$PROJECT_DIR$/package.json" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webapp/asms/badrecode/enterpriseview.html" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webapp/asms/badrecode/enterpriseview.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webapp/asms/complain/complainEnterpriseview.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webapp/asms/subjDt/subjDtAllot.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webapp/asms/subjEl/subjElAllot.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webapp/asms/subjEnt/subjEntAllot.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/webapp/asms/subjSv/subjSvAllot.js" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
+  </component>
+</project>

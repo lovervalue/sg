@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.TemplateIsproMapper" >
+    <resultMap id="TemplateIsproMap" type="com.sofn.bigdata.model.TemplateIspro">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="FIELDNAME" jdbcType="VARCHAR" property="fieldname" />
+        <result column="FIELDCODE" jdbcType="VARCHAR" property="fieldcode" />
+        <result column="FIELDTYPE" jdbcType="VARCHAR" property="fieldtype" />
+        <result column="STATE" jdbcType="VARCHAR" property="state" />
+        <result column="ISPRO" jdbcType="VARCHAR" property="ispro" />
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <insert id="saveTemplateIspro" parameterType="java.util.HashMap">
+        insert into template_ispro (
+            id,
+            fieldname,
+            fieldcode,
+            fieldtype,
+            state,
+            ispro,
+            del_flag,
+            create_user_id,
+            create_time,
+            update_user_id,
+            update_time
+        )
+        values
+        (
+            #{id,jdbcType=VARCHAR},
+            #{fieldname,jdbcType=VARCHAR},
+            #{fieldcode,jdbcType=VARCHAR},
+            #{fieldtype,jdbcType=VARCHAR},
+            #{state,jdbcType=VARCHAR},
+            #{ispro,jdbcType=VARCHAR},
+            #{delFlag,jdbcType=VARCHAR},
+            #{createUserId,jdbcType=VARCHAR},
+            #{createTime,jdbcType=TIMESTAMP},
+            #{updateUserId,jdbcType=VARCHAR},
+            #{updateTime,jdbcType=TIMESTAMP}
+        )
+    </insert>
+    <update id="updateTemplateIspro" parameterType="java.util.HashMap">
+        update template_ispro
+            set
+               FIELDNAME = #{fieldname,jdbcType=VARCHAR},
+               FIELDCODE = #{fieldcode,jdbcType=VARCHAR},
+               FIELDTYPE = #{fieldtype,jdbcType=VARCHAR},
+               STATE = #{state,jdbcType=VARCHAR},
+               ISPRO = #{ispro,jdbcType=VARCHAR},
+               DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+               UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+               UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+            where
+                ID = #{id}
+    </update>
+    <select id="getTemplateIsproList" parameterType="java.util.HashMap" resultMap="TemplateIsproMap">
+        SELECT
+            ID,
+            fieldname,
+            fieldcode,
+            fieldtype,
+            state,
+            ispro,
+            del_flag,
+            create_user_id,
+            create_time,
+            update_user_id,
+            update_time
+        FROM
+            template_ispro
+        WHERE del_flag = 'N'
+        <if test="fieldname != null and fieldname != ''">
+            AND fieldname LIKE '%'|| #{fieldname}||'%'
+        </if>
+        <if test="fieldtype != null and fieldtype != ''">
+            AND fieldtype LIKE '%'|| #{fieldtype}||'%'
+        </if>
+          AND ispro = #{ispro}
+    </select>
+    <update id="delTemplateIspro" parameterType="java.util.HashMap">
+        update template_ispro
+        set del_flag = 'Y'
+        where id = #{id}
+    </update>
+    <update id="startTemplateIspro" parameterType="java.util.HashMap">
+        update template_ispro
+        set state = '1'
+        where id = #{id}
+    </update>
+    <update id="stopTemplateIspro" parameterType="java.util.HashMap">
+        update template_ispro
+        set state = '0'
+        where id = #{id}
+    </update>
+</mapper>

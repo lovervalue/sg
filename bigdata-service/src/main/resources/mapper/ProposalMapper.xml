@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sofn.bigdata.mapper.ProposalMapper">
+
+
+    <!--分页+条件查询-->
+    <select id="selectListByQuery" resultType="com.sofn.bigdata.model.Proposal"  parameterType="java.util.Map">
+        select
+        <include refid="Base_column_list"/>
+        from tb_proposal
+
+        <where>1=1
+
+            <if test="name !=null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+
+
+            <if test="status !=null and status != ''">
+                and status = #{status}
+            </if>
+
+            <if test="creator !=null and creator != ''">
+                and creator = #{creator}
+            </if>
+
+        </where>
+
+        ORDER BY create_time DESC
+    </select>
+
+    
+    <!--删除-->
+    <delete id="removeById" parameterType="java.lang.String">
+        delete from tb_proposal where id = #{id}
+    </delete>
+
+    
+    <!--更新-->
+    <update id="update" parameterType="com.sofn.bigdata.model.Proposal">
+        update tb_proposal set
+        name = #{name},creator = #{creator},
+        create_time = #{createTime},approver = #{approver},
+        status = #{status},
+        decision_problem_id = #{decisionProblemId},
+        decision_problem_name = #{decisionProblemName},
+        case_analyze = #{caseAnalyze},suggestion_measure=#{suggestionMeasure},
+        analyze_data=#{analyzeData},
+        file_id=#{fileId},
+        file_name=#{fileName},
+        annotation=#{annotation},
+        annotation_person=#{annotationPerson},
+        annotation_time=#{annotationTime},analyze_data_id=#{analyzeDataId}
+        where create_time=#{createTime}
+    </update>
+
+    <!--添加-->
+    <insert id="insert" parameterType="com.sofn.bigdata.model.Proposal">
+        insert into tb_proposal
+        (<include refid="Base_column_list"/>)
+        values
+        (#{id},#{name},#{creator},#{createTime},#{approver},#{status},
+        #{decisionProblemId},#{decisionProblemName},#{caseAnalyze},#{suggestionMeasure},#{analyzeData},
+        #{fileId},#{fileName},#{annotation},#{annotationPerson},#{annotationTime},#{creatorId},#{analyzeDataId})
+    </insert>
+
+    <sql id="Base_column_list">
+        id,name,creator,create_time,approver,
+        status,decision_problem_id,decision_problem_name,
+        case_analyze,suggestion_measure,analyze_data,file_id,
+        file_name,annotation,annotation_person,annotation_time,creator_id,analyze_data_id
+    </sql>
+
+    <!--详情-->
+    <select id="view" resultType="com.sofn.bigdata.model.Proposal"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_column_list"/>
+        from tb_proposal where id=#{id}
+        ORDER BY create_time DESC
+    </select>
+
+    <!--通过决策问题id查找提案信息-->
+    <select id="selectByDecisionProblemId" resultType="com.sofn.bigdata.model.Proposal" parameterType="java.lang.String">
+       select <include refid="Base_column_list"/>
+       from tb_proposal where decision_problem_id=#{decisionProblemId}
+       ORDER BY create_time DESC
+    </select>
+
+</mapper>

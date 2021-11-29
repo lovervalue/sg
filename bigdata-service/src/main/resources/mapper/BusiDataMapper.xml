@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.BusiDataMapper" >
+    <resultMap id="BusiDataMap" type="com.sofn.bigdata.model.BusiData">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="SOURCEID" jdbcType="VARCHAR" property="sourceid" />
+        <result column="PID" jdbcType="VARCHAR" property="pid" />
+        <result column="COLUMN_TYPE" jdbcType="VARCHAR" property="columnType" />
+        <result column="DATANAME" jdbcType="VARCHAR" property="dataname" />
+        <result column="DATA_ALIAS" jdbcType="VARCHAR" property="dataAlias" />
+        <result column="DATA_COMMENT" jdbcType="VARCHAR" property="dataComment" />
+        <result column="DATA_TYPE" jdbcType="VARCHAR" property="dataType" />
+        <result column="DATA_FORM" jdbcType="VARCHAR" property="dataForm" />
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <insert id="saveBusiData" parameterType="java.util.HashMap">
+            insert into busi_data (
+                ID,
+                SOURCEID,
+                PID,
+                COLUMN_TYPE,
+                DATANAME,
+                DATA_ALIAS,
+                DATA_COMMENT,
+                DATA_TYPE,
+                DATA_FORM,
+                DEL_FLAG,
+                CREATE_USER_ID,
+                CREATE_TIME,
+                UPDATE_USER_ID,
+                UPDATE_TIME
+            )
+            values
+                (
+                    #{id,jdbcType=VARCHAR},
+                    #{sourceid,jdbcType=VARCHAR},
+                    #{pid,jdbcType=VARCHAR},
+                    #{columnType,jdbcType=VARCHAR},
+                    #{dataname,jdbcType=VARCHAR},
+                    #{dataAlias,jdbcType=VARCHAR},
+                    #{dataComment,jdbcType=VARCHAR},
+                    #{dataType,jdbcType=VARCHAR},
+                    #{dataForm,jdbcType=VARCHAR},
+                    #{delFlag,jdbcType=VARCHAR},
+                    #{createUserId,jdbcType=VARCHAR},
+                    #{createTime,jdbcType=TIMESTAMP},
+                    #{updateUserId,jdbcType=VARCHAR},
+                    #{updateTime,jdbcType=TIMESTAMP}
+                )
+    </insert>
+    <update id="deleteBusiData" parameterType="java.util.HashMap">
+            update busi_data set
+                DEL_FLAG = 'Y'
+            where
+                ID = #{id}
+    </update>
+</mapper>

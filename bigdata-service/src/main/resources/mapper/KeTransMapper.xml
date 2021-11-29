@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.KeTransMapper">
+
+
+    <select id="updatestatus" >
+            update k_trans SET trans_status=2
+            where trans_id=#{transId}
+
+    </select>
+
+    <select id="updatestatustrue" >
+            update k_trans SET trans_status=1
+            where trans_id=#{transId}
+
+    </select>
+
+</mapper>

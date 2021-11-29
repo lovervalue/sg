@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.BusinessSourceMapper" >
+    <resultMap id="BusinessSourceMap" type="com.sofn.bigdata.model.BusinessSource">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="SOURCEID" jdbcType="VARCHAR" property="sourceid" />
+        <result column="BUSI_NAME" jdbcType="VARCHAR" property="busiName" />
+        <result column="BUSI_ALIAS" jdbcType="VARCHAR" property="busiAlias" />
+        <result column="BUSI_COMMENT" jdbcType="VARCHAR" property="busiComment" />
+        <result column="DATA_JSON" jdbcType="VARCHAR" property="dataJson" />
+        <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+        <result column="OPERAT_DATE" jdbcType="TIMESTAMP" property="operatDate" />
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <insert id="saveBusinessSource" parameterType="java.util.HashMap">
+            insert into busi_source (
+                ID,
+                SOURCEID,
+                BUSI_NAME,
+                BUSI_ALIAS,
+                BUSI_COMMENT,
+                DATA_JSON,
+                OPERATOR,
+                OPERAT_DATE,
+                DEL_FLAG,
+                CREATE_USER_ID,
+                CREATE_TIME,
+                UPDATE_USER_ID,
+                UPDATE_TIME
+            )
+            values
+                (
+                    #{id,jdbcType=VARCHAR},
+                    #{sourceid,jdbcType=VARCHAR},
+                    #{busiName,jdbcType=VARCHAR},
+                    #{busiAlias,jdbcType=VARCHAR},
+                    #{busiComment,jdbcType=VARCHAR},
+                    #{dataJson,jdbcType=VARCHAR},
+                    #{operator,jdbcType=VARCHAR},
+                    #{operatDate,jdbcType=TIMESTAMP},
+                    #{delFlag,jdbcType=VARCHAR},
+                    #{createUserId,jdbcType=VARCHAR},
+                    #{createTime,jdbcType=TIMESTAMP},
+                    #{updateUserId,jdbcType=VARCHAR},
+                    #{updateTime,jdbcType=TIMESTAMP}
+                )
+    </insert>
+    <select id="getBusinessSourceList" resultMap="BusinessSourceMap">
+        select
+            ID,
+            SOURCEID,
+            BUSI_NAME,
+            BUSI_ALIAS,
+            BUSI_COMMENT,
+            DATA_JSON,
+            OPERATOR,
+            OPERAT_DATE,
+            CREATE_USER_ID,
+            CREATE_TIME,
+            UPDATE_USER_ID,
+            UPDATE_TIME
+        from
+            busi_source
+        where
+            DEL_FLAG = 'N'
+        <if test="businame != null and businame != ''">
+            and BUSI_NAME = #{businame}
+        </if>
+    </select>
+    <update id="updateBusinessSource" parameterType="java.util.HashMap">
+            update business_source set
+                ID = #{id,jdbcType=VARCHAR},
+                SOURCEID = #{sourceid,jdbcType=VARCHAR},
+                BUSI_NAME = #{busiName,jdbcType=VARCHAR},
+                BUSI_ALIAS = #{busiAlias,jdbcType=VARCHAR},
+                BUSI_COMMENT = #{busiComment,jdbcType=VARCHAR},
+                DATA_JSON = #{dataJson,jdbcType=VARCHAR},
+                OPERATOR = #{operator,jdbcType=VARCHAR},
+                OPERAT_DATE = #{operatDate,jdbcType=TIMESTAMP},
+                DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+            where
+                ID = #{id}
+    </update>
+    <update id="deleteBusinessSource" parameterType="java.util.HashMap">
+            update busi_source set
+                DEL_FLAG = 'Y'
+            where
+                ID = #{id}
+    </update>
+</mapper>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.DataAnalyzeMapper" >
+    <resultMap id="DataAnalyzeMap" type="com.sofn.bigdata.model.DataAnalyze">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="BUSI_ID" jdbcType="VARCHAR" property="sourceid" />
+        <result column="ANALYZE_NAME" jdbcType="VARCHAR" property="busiName" />
+        <result column="DATA_COMMENT" jdbcType="VARCHAR" property="busiComment" />
+        <result column="DATA_DETAIL" jdbcType="VARCHAR" property="dataDetail" />
+        <result column="OPERATOR" jdbcType="VARCHAR" property="operator" />
+        <result column="OPERAT_DATE" jdbcType="TIMESTAMP" property="operatDate" />
+        <result column="GRAM_TYPE" jdbcType="VARCHAR" property="operator" />
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <insert id="saveDataAnalyze" parameterType="java.util.HashMap">
+            insert into data_analyze (
+                ID,
+                BUSI_ID,
+                ANALYZE_NAME,
+                DATA_COMMENT,
+                DATA_DETAIL,
+                OPERATOR,
+                OPERAT_DATE,
+                GRAM_TYPE,
+                DEL_FLAG,
+                CREATE_USER_ID,
+                CREATE_TIME,
+                UPDATE_USER_ID,
+                UPDATE_TIME
+            )
+            values
+                (
+                    #{id,jdbcType=VARCHAR},
+                    #{busiId,jdbcType=VARCHAR},
+                    #{analyzeName,jdbcType=VARCHAR},
+                    #{dataComment,jdbcType=VARCHAR},
+                    #{dataDetail,jdbcType=VARCHAR},
+                    #{operator,jdbcType=VARCHAR},
+                    #{operatDate,jdbcType=TIMESTAMP},
+                    #{gramType,jdbcType=VARCHAR},
+                    #{delFlag,jdbcType=VARCHAR},
+                    #{createUserId,jdbcType=VARCHAR},
+                    #{createTime,jdbcType=TIMESTAMP},
+                    #{updateUserId,jdbcType=VARCHAR},
+                    #{updateTime,jdbcType=TIMESTAMP}
+                )
+    </insert>
+    <select id="getDataAnalyzeList" resultMap="DataAnalyzeMap">
+        select
+            BUSI_ID,
+            ANALYZE_NAME,
+            DATA_COMMENT,
+            DATA_DETAIL,
+            OPERATOR,
+            OPERAT_DATE,
+            GRAM_TYPE,
+            CREATE_USER_ID,
+            CREATE_TIME,
+            UPDATE_USER_ID,
+            UPDATE_TIME
+        from
+            data_analyze
+        where
+            DEL_FLAG = 'N'
+        <if test="businame != null and businame != ''">
+            and BUSI_NAME = #{businame}
+        </if>
+    </select>
+    <update id="updateDataAnalyze" parameterType="java.util.HashMap">
+            update data_analyze set
+                ID = #{id,jdbcType=VARCHAR},
+                BUSI_ID = #{busiId,jdbcType=VARCHAR},
+                ANALYZE_NAME = #{analyzeName,jdbcType=VARCHAR},
+                DATA_COMMENT = #{dataComment,jdbcType=VARCHAR},
+                DATA_DETAIL = #{dataDetail,jdbcType=VARCHAR},
+                OPERATOR = #{operator,jdbcType=VARCHAR},
+                OPERAT_DATE = #{operatDate,jdbcType=TIMESTAMP},
+                GRAM_TYPE = #{gramType,jdbcType=VARCHAR},
+                DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+            where
+                ID = #{id}
+    </update>
+    <update id="deleteDataAnalyze" parameterType="java.util.HashMap">
+            update data_analyze set
+                DEL_FLAG = 'Y'
+            where
+                ID = #{id}
+    </update>
+    <select id="view" resultMap="DataAnalyzeMap" parameterType="java.lang.String">
+        select
+        BUSI_ID,
+        ANALYZE_NAME,
+        DATA_COMMENT,
+        DATA_DETAIL,
+        OPERATOR,
+        OPERAT_DATE,
+        GRAM_TYPE,
+        CREATE_USER_ID,
+        CREATE_TIME,
+        UPDATE_USER_ID,
+        UPDATE_TIME
+        from
+        data_analyze
+        where
+        DEL_FLAG = 'N'
+        and ID = #{id}
+    </select>
+</mapper>

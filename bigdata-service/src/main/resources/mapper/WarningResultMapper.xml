@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.WarningResultMapper">
+
+
+    <select id="selectsum"  resultType="java.util.Map"
+            parameterType="java.util.Map" >
+        SELECT sum(triggers_number)as triggers_number,warning_name as warning_name
+        FROM warning_result
+        where data_name=#{dataName}
+        and warning_time &gt;=#{startdates}
+        and warning_time &lt;= #{stopdatestf}
+        GROUP BY warning_name
+
+    </select>
+
+
+
+</mapper>

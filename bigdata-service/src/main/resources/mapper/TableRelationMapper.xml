@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sofn.bigdata.mapper.TableRelationMapper" >
+    <resultMap id="TableRelationMap" type="com.sofn.bigdata.model.TableRelation">
+        <id column="id" jdbcType="VARCHAR" property="id" />
+        <result column="LEFT_TB_NAME" jdbcType="VARCHAR" property="leftTbName" />
+        <result column="LEFT_TB_COLUMN" jdbcType="VARCHAR" property="leftTbColumn" />
+        <result column="UNION_TYPE" jdbcType="VARCHAR" property="unionType" />
+        <result column="RIGHT_TB_NAME" jdbcType="VARCHAR" property="rightTbName" />
+        <result column="RIGHT_TB_COLUMN" jdbcType="VARCHAR" property="rightTbColumn" />
+        <result column="TB_COMMENT" jdbcType="VARCHAR" property="tbComment" />
+        <result column="MODULEID" jdbcType="VARCHAR" property="moduleid" />
+        <result column="DEL_FLAG" jdbcType="VARCHAR" property="delFlag" />
+        <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+        <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="UPDATE_USER_ID" jdbcType="VARCHAR" property="updateUserId" />
+        <result column="UPDATE_TIME" jdbcType="TIMESTAMP" property="updateTime" />
+    </resultMap>
+    <insert id="saveTableRelation" parameterType="java.util.HashMap">
+            insert into table_relation (
+                ID,
+                LEFT_TB_NAME,
+                LEFT_TB_COLUMN,
+                UNION_TYPE,
+                RIGHT_TB_NAME,
+                RIGHT_TB_COLUMN,
+                TB_COMMENT,
+                MODULEID,
+                DEL_FLAG,
+                CREATE_USER_ID,
+                CREATE_TIME,
+                UPDATE_USER_ID,
+                UPDATE_TIME
+            )
+            values
+                (
+                    #{id,jdbcType=VARCHAR},
+                    #{leftTbName,jdbcType=VARCHAR},
+                    #{leftTbColumn,jdbcType=VARCHAR},
+                    #{unionType,jdbcType=VARCHAR},
+                    #{rightTbName,jdbcType=VARCHAR},
+                    #{rightTbColumn,jdbcType=VARCHAR},
+                    #{tbComment,jdbcType=VARCHAR},
+                    #{moduleid,jdbcType=VARCHAR},
+                    #{delFlag,jdbcType=VARCHAR},
+                    #{createUserId,jdbcType=VARCHAR},
+                    #{createTime,jdbcType=TIMESTAMP},
+                    #{updateUserId,jdbcType=VARCHAR},
+                    #{updateTime,jdbcType=TIMESTAMP}
+                )
+    </insert>
+    <select id="getTableRelationList" resultMap="TableRelationMap">
+        select
+            ID,
+            LEFT_TB_NAME,
+            LEFT_TB_COLUMN,
+            UNION_TYPE,
+            RIGHT_TB_NAME,
+            RIGHT_TB_COLUMN,
+            TB_COMMENT,
+            MODULEID,
+            CREATE_USER_ID,
+            CREATE_TIME,
+            UPDATE_USER_ID,
+            UPDATE_TIME
+        from
+            table_relation
+        where
+            DEL_FLAG = 'N'
+    </select>
+    <update id="updateTableRelation" parameterType="java.util.HashMap">
+            update table_relation set
+                ID = #{id,jdbcType=VARCHAR},
+                LEFT_TB_NAME = #{leftTbName,jdbcType=VARCHAR},
+                LEFT_TB_COLUMN = #{leftTbColumn,jdbcType=VARCHAR},
+                UNION_TYPE = #{unionType,jdbcType=VARCHAR},
+                RIGHT_TB_NAME = #{rightTbName,jdbcType=VARCHAR},
+                RIGHT_TB_COLUMN = #{rightTbColumn,jdbcType=VARCHAR},
+                TB_COMMENT = #{tbComment,jdbcType=VARCHAR},
+                MODULEID = #{moduleid,jdbcType=VARCHAR},
+                DEL_FLAG = #{delFlag,jdbcType=VARCHAR},
+                CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+                CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+                UPDATE_USER_ID = #{updateUserId,jdbcType=VARCHAR},
+                UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+            where
+                ID = #{id}
+    </update>
+    <update id="deleteTableRelation" parameterType="java.util.HashMap">
+            update table_relation set
+                DEL_FLAG = 'Y'
+            where
+                ID = #{id}
+    </update>
+</mapper>

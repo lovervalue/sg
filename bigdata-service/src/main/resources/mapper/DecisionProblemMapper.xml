@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sofn.bigdata.mapper.DecisionProblemMapper">
+
+
+    <!--分页+条件查询-->
+    <select id="selectListByQuery" resultType="com.sofn.bigdata.model.DecisionProblem"
+            parameterType="java.util.Map">
+        select
+        <include refid="Base_column_list"/>
+        from tb_decision_problem
+        <where>1=1
+            <if test="name !=null and name != ''">
+                and name like concat('%',#{name},'%')
+            </if>
+
+            <if test="status !=null and status != ''">
+                and status = #{status}
+            </if>
+
+            <if test="creatorId !=null and creatorId != ''">
+                and creator_id = #{creatorId}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    
+    
+    <!--删除-->
+    <delete id="removeById" parameterType="java.lang.String">
+        delete from tb_decision_problem where id = #{id}
+    </delete>
+    
+    
+    <!--更新-->
+    <update id="update" parameterType="com.sofn.bigdata.model.DecisionProblem">
+        update tb_decision_problem set
+        name = #{name},problem_description = #{problemDescription},
+        problem_type = #{problemType},problem_level = #{problemLevel},
+        problem_nature = #{problemNature},
+        problem_affiliation = #{problemAffiliation},
+        related_problem_ids = #{relatedProblemIds},
+        creator = #{creator},create_time=#{createTime},
+        status=#{status},related_problem_names=#{relatedProblemNames},is_related=#{isRelated}
+        where id=#{id}
+    </update>
+
+    <!--添加-->
+    <insert id="insert" parameterType="com.sofn.bigdata.model.DecisionProblem">
+        insert into tb_decision_problem
+        (<include refid="Base_column_list"/>)
+        values
+        (#{id},#{name},#{problemDescription},#{problemType},#{problemLevel},#{problemNature},
+        #{problemAffiliation},#{relatedProblemIds},#{creator},#{createTime},#{status},#{creatorId},
+        #{relatedProblemNames},#{isRelated})
+    </insert>
+
+    <sql id="Base_column_list">
+        id,name,problem_description,problem_type,problem_level,
+        problem_nature,problem_affiliation,related_problem_ids,
+        creator,create_time,status,creator_id,related_problem_names,is_related
+    </sql>
+
+    <!--详情-->
+    <select id="view" resultType="com.sofn.bigdata.model.DecisionProblem"
+            parameterType="java.lang.String">
+        select
+        <include refid="Base_column_list"/>
+        from tb_decision_problem where id=#{id}
+    </select>
+
+</mapper>

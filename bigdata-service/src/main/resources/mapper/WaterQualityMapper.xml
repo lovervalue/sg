@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sofn.bigdata.mapper.WaterQualityMapper">
+
+    <!-- 通用查询映射结果,需修改字段 -->
+    <resultMap id="BaseResultMap" type="com.sofn.bigdata.model.WaterQuality">
+        <id column="id" property="id" />
+        <result column="site_name" property="siteName" />
+        <result column="date_time" property="dateTime" />
+        <result column="pH" property="pH" />
+        <result column="DO" property="do" />
+        <result column="NH4" property="nh4" />
+        <result column="CODMn" property="CODMn" />
+        <result column="TOC" property="toc" />
+        <result column="level" property="level" />
+        <result column="attribute" property="attribute" />
+        <result column="status" property="status" />
+        <result column="crawling_time" property="crawlingTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, site_name, date_time, pH, DO, NH4, CODMn, TOC, level, attribute, status, crawling_date, crawling_time, template_id
+    </sql>
+
+    <!--通过爬取日期查询数据库存在数据-->
+    <select id="selectListByCrawlingDate" parameterType="String" resultType="WaterQuality">
+        select <include refid="Base_Column_List"/> from tb_water_quality where crawling_date = DATE_FORMAT(#{crawlingDate},"%Y-%m-%d")
+    </select>
+    
+    <!--批量插入水质数据-->
+    <insert id="batchInsert" parameterType="list">
+        insert into tb_water_quality(<include refid="Base_Column_List"/>) values
+            <foreach collection="param" index="index" item="item" separator=",">
+                (#{item.id},#{item.siteName},#{item.dateTime},#{item.pH},#{item.DO},#{item.NH4},#{item.CODMn},#{item.TOC},#{item.level},
+                #{item.attribute},#{item.status},#{item.crawlingDate},#{item.crawlingTime},#{item.templateId})
+            </foreach>
+    </insert>
+
+</mapper>
